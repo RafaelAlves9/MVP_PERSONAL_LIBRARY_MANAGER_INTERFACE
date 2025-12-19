@@ -1,4 +1,4 @@
-# Orion Reads – Biblioteca Pessoal (Front-end)
+# Biblioteca Pessoal (Front-end)
 
 Aplicação React + Vite para explorar livros da OpenLibrary, visualizar detalhes, marcar leituras e gerenciar notas pessoais. Interface animada com MUI, Framer Motion, Tailwind e React Query, consumindo o backend em `http://localhost:5000`.
 
