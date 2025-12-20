@@ -4,7 +4,6 @@ dist
 .gitignore
 npm-debug.log
 pnpm-lock.yaml
-package-lock.json
 Dockerfile
 *.local
 .npm

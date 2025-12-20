@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useState } from 'react'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deleteRead, fetchReads, updateRead, UpdateReadPayload } from '@/services/readsService'
+import { deleteRead, fetchReads, updateRead } from '@/services/readsService'
+import type { UpdateReadPayload } from '@/services/readsService'
 import { useNotification } from '@/app/providers/NotificationProvider'
-import { PaginatedResponse } from '@/types/common'
-import { ReadEntry } from '@/types/reads'
+import type { PaginatedResponse } from '@/types/common'
+import type { ReadEntry } from '@/types/reads'
 
 export function useReadsViewModel() {
   const [page, setPage] = useState(1)

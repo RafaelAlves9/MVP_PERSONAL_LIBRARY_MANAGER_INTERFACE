@@ -1,4 +1,4 @@
-import { Book } from '@/types/books'
+import type { Book } from '@/types/books'
 import { Button, Card, CardContent, Chip, Stack, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 

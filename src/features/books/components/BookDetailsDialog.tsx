@@ -1,4 +1,4 @@
-import { BookDetails } from '@/types/books'
+import type { BookDetails } from '@/types/books'
 import {
   Box,
   Chip,

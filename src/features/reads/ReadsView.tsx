@@ -1,6 +1,6 @@
-import { ReadEntry } from '@/types/reads'
+import type { ReadEntry } from '@/types/reads'
 import { Card, CardContent, Stack, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import PaginationBar from '@/components/common/PaginationBar'
 import LoadingState from '@/components/common/LoadingState'
 import EmptyState from '@/components/common/EmptyState'
@@ -81,7 +81,7 @@ function ReadsView({
       {!isLoading && reads && reads.length > 0 && (
         <Grid container spacing={2}>
           {reads.map((entry) => (
-            <Grid key={entry.id} size={{ xs: 12, sm: 6 }}>
+            <Grid key={entry.id} item xs={12} sm={6}>
               <ReadCard entry={entry} onEditNote={onEditNote} onRemove={onRemove} />
             </Grid>
           ))}

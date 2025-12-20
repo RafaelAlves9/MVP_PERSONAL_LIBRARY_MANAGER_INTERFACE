@@ -1,4 +1,4 @@
-import { ReadEntry } from '@/types/reads'
+import type { ReadEntry } from '@/types/reads'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import { Button, Card, CardActions, CardContent, Chip, Stack, Typography } from '@mui/material'

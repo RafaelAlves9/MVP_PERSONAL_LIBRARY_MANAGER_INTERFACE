@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import NoteDialog from '@/components/NoteDialog'
-import { ReadEntry } from '@/types/reads'
+import type { ReadEntry } from '@/types/reads'
 import { useReadsViewModel } from './ReadsViewModel'
 import ReadsView from './ReadsView'
 

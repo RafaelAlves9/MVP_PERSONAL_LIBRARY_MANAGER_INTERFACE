@@ -1,7 +1,7 @@
-import { Book, BookDetails } from '@/types/books'
+import type { Book, BookDetails } from '@/types/books'
 import { BookCard } from './components'
 import { Box, Card, CardContent, Stack, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import SearchInput from '@/components/common/SearchInput'
 import PaginationBar from '@/components/common/PaginationBar'
 import LoadingState from '@/components/common/LoadingState'
@@ -101,7 +101,7 @@ function BooksView({
       {!isLoading && books && books.length > 0 && (
         <Grid container spacing={2}>
           {books.map((book) => (
-            <Grid key={book.externalId} size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid key={book.externalId} item xs={12} sm={6} md={4}>
               <BookCard
                 book={book}
                 onSeeDetails={onSeeDetails}

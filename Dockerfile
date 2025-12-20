@@ -3,9 +3,11 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Instala dependências de forma determinística
+# Instala dependências (inclui dev para permitir tsc/vite no build)
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 # Copia o resto do código e builda artefatos estáticos
 COPY . .

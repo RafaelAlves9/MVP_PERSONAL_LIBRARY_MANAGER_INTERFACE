@@ -4,12 +4,12 @@ import { fetchBookDetails, fetchBooks } from '@/services/booksService'
 import { createRead } from '@/services/readsService'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useNotification } from '@/app/providers/NotificationProvider'
-import { Book, BookDetails } from '@/types/books'
-import { PaginatedResponse } from '@/types/common'
+import type { Book, BookDetails } from '@/types/books'
+import type { PaginatedResponse } from '@/types/common'
 
 export function useBooksViewModel() {
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(12)
+  const [limit, setLimit] = useState(10)
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const debouncedSearch = useDebounce(search, 400)

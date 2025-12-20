@@ -1,4 +1,5 @@
-import { Alert, AlertColor, Snackbar } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
+import type { AlertColor } from '@mui/material'
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react'
 
 type NotificationState = {

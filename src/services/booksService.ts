@@ -1,6 +1,6 @@
 import { httpClient } from './httpClient'
-import { Book, BookDetails } from '@/types/books'
-import { PaginatedResponse } from '@/types/common'
+import type { Book, BookDetails } from '@/types/books'
+import type { PaginatedResponse } from '@/types/common'
 import { toBook, toBookDetails, toPaginated } from './schemas'
 
 export type BooksQuery = {
