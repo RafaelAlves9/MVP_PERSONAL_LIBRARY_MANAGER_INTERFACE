@@ -17,6 +17,10 @@ httpClient.interceptors.response.use(
       return Promise.reject(new Error('API indisponível. Verifique o backend em :5000.'))
     }
 
+    if (status === 409) {
+      return Promise.reject(new Error('Item já cadastrado'))
+    }
+
     return Promise.reject(new Error(message))
   },
 )

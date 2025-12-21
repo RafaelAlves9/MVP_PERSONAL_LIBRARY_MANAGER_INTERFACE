@@ -8,6 +8,10 @@ import LoadingState from '@/components/common/LoadingState'
 import EmptyState from '@/components/common/EmptyState'
 import BookDetailsDialog from './components/BookDetailsDialog'
 import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { IconButton } from '@mui/material'
 
 type Props = {
   page: number
@@ -48,6 +52,14 @@ function BooksView({
   onCloseDetails,
   isLoadingDetails,
 }: Props) {
+  const sliderRef = useRef<HTMLDivElement | null>(null)
+
+  const scrollBy = (delta: number) => {
+    const node = sliderRef.current
+    if (!node) return
+    node.scrollBy({ left: delta, behavior: 'smooth' })
+  }
+
   return (
     <Stack spacing={3}>
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
@@ -99,17 +111,53 @@ function BooksView({
       {isLoading && <LoadingState message="Buscando livros na OpenLibrary..." />}
 
       {!isLoading && books && books.length > 0 && (
-        <Grid container spacing={2}>
-          {books.map((book) => (
-            <Grid key={book.externalId} item xs={12} sm={6} md={4}>
+        <Stack spacing={1}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h6">Resultados</Typography>
+            <Stack direction="row" spacing={1}>
+              <IconButton onClick={() => scrollBy(-360)} aria-label="Anterior">
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => scrollBy(360)} aria-label="Próximo">
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          </Stack>
+
+          <Box
+            ref={sliderRef}
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              gridAutoColumns: '240px',
+              gap: 1.5,
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                height: 8,
+                backgroundColor: 'transparent',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'linear-gradient(135deg, rgba(96,165,250,0.35), rgba(167,139,250,0.35))',
+                borderRadius: 999,
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'transparent',
+              },
+              '& > *': { scrollSnapAlign: 'start' },
+            }}
+          >
+            {books.map((book) => (
               <BookCard
+                key={book.externalId}
                 book={book}
                 onSeeDetails={onSeeDetails}
                 onMarkRead={onMarkRead}
               />
-            </Grid>
-          ))}
-        </Grid>
+            ))}
+          </Box>
+        </Stack>
       )}
 
       {!isLoading && books && books.length === 0 && (
@@ -123,6 +171,7 @@ function BooksView({
         book={selectedDetails}
         isLoading={isLoadingDetails}
         onClose={onCloseDetails}
+        onMarkRead={onMarkRead}
       />
     </Stack>
   )

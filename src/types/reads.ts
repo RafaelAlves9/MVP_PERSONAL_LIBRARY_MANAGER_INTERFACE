@@ -5,5 +5,7 @@ export type ReadEntry = {
   author?: string
   note?: string
   createdAt?: string
+  cover?: string
+  firstPublishYear?: number
 }
 

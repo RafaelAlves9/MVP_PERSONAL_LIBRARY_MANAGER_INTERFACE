@@ -30,9 +30,11 @@ export function useBooksViewModel() {
   })
 
   const markAsReadMutation = useMutation({
-    mutationFn: (payload: { externalId: string; note?: string }) => createRead(payload),
-    onSuccess: () => {
+    mutationFn: (payload: { externalId: string; note?: string; onSuccessClose?: () => void }) =>
+      createRead({ externalId: payload.externalId, note: payload.note }),
+    onSuccess: (_data, variables) => {
       notifySuccess('Livro marcado como lido')
+      variables.onSuccessClose?.()
       queryClient.invalidateQueries({ queryKey: ['reads'] })
     },
     onError: (error: Error) => {

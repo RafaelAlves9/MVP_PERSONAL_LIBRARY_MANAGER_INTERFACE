@@ -12,7 +12,7 @@ const tabItems = [
 function MainLayout() {
   const location = useLocation()
   const navigate = useNavigate()
-  const currentPath = tabItems.find((tab) => location.pathname.startsWith(tab.value))?.value ?? '/'
+  const currentPath = location.pathname.startsWith('/reads') ? '/reads' : '/'
 
   return (
     <Box sx={{ minHeight: '100vh', color: 'text.primary' }}>

@@ -1,6 +1,8 @@
 import type { ReadEntry } from '@/types/reads'
-import { Card, CardContent, Stack, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid'
+import { Card, CardContent, Stack, Typography, Box, IconButton } from '@mui/material'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { useRef } from 'react'
 import PaginationBar from '@/components/common/PaginationBar'
 import LoadingState from '@/components/common/LoadingState'
 import EmptyState from '@/components/common/EmptyState'
@@ -18,6 +20,7 @@ type Props = {
   onPerPageChange: (perPage: number) => void
   onEditNote: (entry: ReadEntry) => void
   onRemove: (id: string) => void
+  onSeeDetails: (externalId: string) => void
 }
 
 function ReadsView({
@@ -32,7 +35,16 @@ function ReadsView({
   onPerPageChange,
   onEditNote,
   onRemove,
+  onSeeDetails,
 }: Props) {
+  const sliderRef = useRef<HTMLDivElement | null>(null)
+
+  const scrollBy = (delta: number) => {
+    const node = sliderRef.current
+    if (!node) return
+    node.scrollBy({ left: delta, behavior: 'smooth' })
+  }
+
   return (
     <Stack spacing={3}>
       <Card>
@@ -79,13 +91,53 @@ function ReadsView({
       {isLoading && <LoadingState message="Carregando leituras salvas..." />}
 
       {!isLoading && reads && reads.length > 0 && (
-        <Grid container spacing={2}>
-          {reads.map((entry) => (
-            <Grid key={entry.id} item xs={12} sm={6}>
-              <ReadCard entry={entry} onEditNote={onEditNote} onRemove={onRemove} />
-            </Grid>
-          ))}
-        </Grid>
+        <Stack spacing={1}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant="h6">Leituras</Typography>
+            <Stack direction="row" spacing={1}>
+              <IconButton onClick={() => scrollBy(-360)} aria-label="Anterior">
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => scrollBy(360)} aria-label="Próximo">
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          </Stack>
+
+          <Box
+            ref={sliderRef}
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              gridAutoColumns: '240px',
+              gap: 1.5,
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                height: 8,
+                backgroundColor: 'transparent',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'linear-gradient(135deg, rgba(96,165,250,0.35), rgba(167,139,250,0.35))',
+                borderRadius: 999,
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'transparent',
+              },
+              '& > *': { scrollSnapAlign: 'start' },
+            }}
+          >
+            {reads.map((entry) => (
+              <ReadCard
+                key={entry.id}
+                entry={entry}
+                onRemove={onRemove}
+                onSeeDetails={onSeeDetails}
+              />
+            ))}
+          </Box>
+        </Stack>
       )}
 
       {!isLoading && reads && reads.length === 0 && (

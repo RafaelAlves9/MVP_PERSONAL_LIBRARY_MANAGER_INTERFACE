@@ -1,61 +1,71 @@
 import type { ReadEntry } from '@/types/reads'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import EditNoteIcon from '@mui/icons-material/EditNote'
-import { Button, Card, CardActions, CardContent, Chip, Stack, Typography } from '@mui/material'
+import { Button, Card, CardContent, Stack, Typography, Box } from '@mui/material'
 import { motion } from 'framer-motion'
 
 type Props = {
   entry: ReadEntry
-  onEditNote: (entry: ReadEntry) => void
   onRemove: (id: string) => void
+  onSeeDetails?: (externalId: string) => void
 }
 
-function ReadCard({ entry, onEditNote, onRemove }: Props) {
+function ReadCard({ entry, onRemove, onSeeDetails }: Props) {
   return (
-    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.18 }}>
+    <motion.div
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ duration: 0.18 }}
+      style={{ height: '100%', cursor: 'default', width: 240 }}
+      onClick={() => onSeeDetails?.(entry.externalId)}
+    >
       <Card
         elevation={0}
         sx={{
           height: '100%',
-          border: '1px solid rgba(255,255,255,0.05)',
-          background: 'linear-gradient(135deg, rgba(16,185,129,0.08), rgba(59,130,246,0.08))',
+          width: '100%',
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'linear-gradient(135deg, rgba(96,165,250,0.08), rgba(167,139,250,0.08))',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <CardContent>
-          <Stack spacing={1}>
-            <Typography variant="h6">{entry.title}</Typography>
-            <Typography variant="body2" color="text.secondary">
-              {entry.author ?? 'Autor não informado'}
+        <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, p: 2 }}>
+          <Box
+            sx={{
+              width: '100%',
+              aspectRatio: '3 / 4',
+              borderRadius: 2,
+              background: entry.cover
+                ? `url(${entry.cover}) center/cover`
+                : 'linear-gradient(135deg, rgba(96,165,250,0.35), rgba(167,139,250,0.35))',
+              boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
+            }}
+          />
+          <Typography variant="subtitle1" fontWeight={700} sx={{ lineHeight: 1.25 }}>
+            {entry.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {entry.author ?? 'Autor não informado'}
+          </Typography>
+          {entry.note && (
+            <Typography
+              variant="body2"
+              color="text.primary"
+              sx={{ backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 2, p: 1.2 }}
+            >
+              {entry.note}
             </Typography>
-            {entry.note && (
-              <Typography
-                variant="body2"
-                color="text.primary"
-                sx={{ backgroundColor: 'rgba(255,255,255,0.04)', borderRadius: 2, p: 1.2 }}
-              >
-                {entry.note}
-              </Typography>
-            )}
-            <Stack direction="row" spacing={1} flexWrap="wrap">
-              <Chip size="small" label={`ID ${entry.externalId}`} variant="outlined" />
-              {entry.createdAt && (
-                <Chip size="small" label={`Criado em ${new Date(entry.createdAt).toLocaleDateString()}`} />
-              )}
-            </Stack>
-          </Stack>
+          )}
         </CardContent>
-        <CardActions sx={{ justifyContent: 'space-between' }}>
-          <Button startIcon={<EditNoteIcon />} onClick={() => onEditNote(entry)}>
-            Editar nota
-          </Button>
+        <Box sx={{ px: 2, pb: 2, pt: 0 }}>
           <Button
             color="error"
             startIcon={<DeleteOutlineIcon />}
             onClick={() => onRemove(entry.id)}
+            fullWidth
           >
             Remover
           </Button>
-        </CardActions>
+        </Box>
       </Card>
     </motion.div>
   )

@@ -39,7 +39,7 @@ function PaginationBar({
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
         <Pagination
-          count={Math.max(totalPages, 1)}
+          count={totalPages ?? 1}
           page={page}
           onChange={(_, value) => onPageChange(value)}
           color="primary"

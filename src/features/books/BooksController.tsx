@@ -29,8 +29,11 @@ function BooksController() {
   const confirmNote = async (note?: string) => {
     if (!noteTarget) return
     try {
-      await markAsRead({ externalId: noteTarget, note })
-      setNoteTarget(null)
+      await markAsRead({
+        externalId: noteTarget,
+        note,
+        onSuccessClose: () => setNoteTarget(null),
+      })
     } catch (error) {
       // Notificação já tratada pelo ViewModel
       console.error(error)
