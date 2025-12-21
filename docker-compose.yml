@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../MVP_PERSONAL_LIBRARY_MANAGER_API
+      dockerfile: Dockerfile
+    container_name: books-api
+    environment:
+      - PORT=5000
+      - DATABASE_URL=sqlite:////app/instance/books.db
+      - GUNICORN_WORKERS=3
+      - GUNICORN_THREADS=2
+      - GUNICORN_TIMEOUT=120
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./instance:/app/instance
+    restart: unless-stopped
+    networks:
+      - appnet
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: books-frontend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
