@@ -41,8 +41,8 @@ npm run preview
 ## Docker (frontend)
 O Dockerfile na raiz constrói e serve o bundle estático na porta 3000:
 ```bash
-docker build -t orion-reads-frontend .
-docker run -p 3000:3000 orion-reads-frontend
+docker build -t books-reads-frontend .
+docker run -p 3000:3000 books-reads-frontend
 ```
 
 Em um `docker-compose` compartilhado com o backend, adicione um serviço apontando para este Dockerfile, expondo `3000:3000` e definindo dependência do backend. O front continuará chamando o backend em `http://localhost:5000`.

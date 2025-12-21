@@ -39,7 +39,7 @@ function MainLayout() {
                 Biblioteca
               </Typography>
               <Typography variant="h6" fontWeight={700}>
-                Orion Reads
+                Books Reads
               </Typography>
             </Stack>
           </Stack>
